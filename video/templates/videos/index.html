@@ -1,0 +1,35 @@
+{% extends '../base.html' %}
+
+{% block content %}
+    <h1 class="text-2xl font-bold mb-4">{{ title}}</h1>
+
+    <div class="flex flex-wrap gap-2">
+        {% for video in page_obj %}
+        <div class="max-w-sm bg-white border border-gray-200 rounded-lg shadow dark:bg-gray-800 dark:border-gray-700">
+            <a href="{% url 'show_video' video.id %}">
+                <img class="rounded-t-lg w-full h-1/4" src="{{ video.thumbnail }}" alt="{{ video.title}}" />
+            </a>
+            <div class="p-5">
+                <a href="{% url 'show_video' video.id %}">
+                    <h5 class="mb-2 text-2xl font-bold tracking-tight text-gray-900 dark:text-white">{{ video.title }}</h5>
+                </a>
+                <p class="mb-3 font-normal text-gray-700 dark:text-gray-400">{{ video.timestamp }}</p>
+            </div>
+        </div>
+        {% endfor %}
+    </div>
+
+    {% block pagination %}
+        {% for page_number in page_obj.paginator.page_range %}
+            <a
+                href="{% url 'index' page_number %}"
+                class="{% if page_number == page_obj.number %}current{% endif %}"
+            >
+                {{page_number}}
+            </a>
+        {% endfor %}
+    {% endblock %}
+
+    
+
+{% endblock %}
